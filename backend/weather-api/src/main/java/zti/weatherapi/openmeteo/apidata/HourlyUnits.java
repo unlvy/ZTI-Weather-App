@@ -1,5 +1,6 @@
 package zti.weatherapi.openmeteo.apidata;
 
+/** OpenMeteo hourly units model. */
 public class HourlyUnits {
 
   public String getTime() {

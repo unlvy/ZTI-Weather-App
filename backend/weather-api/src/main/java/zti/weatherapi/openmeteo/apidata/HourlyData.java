@@ -2,6 +2,7 @@ package zti.weatherapi.openmeteo.apidata;
 
 import java.util.List;
 
+/** OpenMeteo hourly data model. */
 public class HourlyData {
 
   public List<String> getTime() {

@@ -1,5 +1,6 @@
 package zti.weatherapi.openmeteo.apidata;
 
+/** OpenMeteo weather data model. */
 public class WeatherData {
 
   public double getLatitude() {
