@@ -39,7 +39,6 @@ public class OpenMeteoService {
    * @param longitude longitude
    * @param startDate start date
    * @param endDate   end date
-   * 
    * @return historical weather data
    */
   public ArrayList<OpenMeteoData> getHistoricalWeather(
