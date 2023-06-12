@@ -23,7 +23,7 @@ public class WeatherController {
    * @param latitude  location longitude
    * @return 7 day weather prediction
    */
-  @GetMapping("/forecast")
+  @GetMapping("/v1/forecast")
   public OpenMeteoData[] getWeatherForecast(
       @RequestParam(value = "latitude") double latitude,
       @RequestParam(value = "longitude") double longitude) {
@@ -34,13 +34,15 @@ public class WeatherController {
   }
 
   /**
-   * Endpoint returning 7-day weather forecast for given location.
+   * Endpoint returning historical weather for given location.
    *
    * @param longitude location latitude
    * @param latitude  location longitude
-   * @return 7 day weather prediction
+   * @param startDate date from
+   * @param endDate   date to
+   * @return historical weather
    */
-  @GetMapping("/historical")
+  @GetMapping("/v1/historical")
   public OpenMeteoData[] getHistoricalWeather(
       @RequestParam(value = "latitude") double latitude,
       @RequestParam(value = "longitude") double longitude,
@@ -71,7 +73,7 @@ public class WeatherController {
               new Date(new Date().getTime() - (8 * 1000 * 60 * 60 * 24)))
           // max 30 days
           && TimeUnit.DAYS.convert(
-            Math.abs(end.getTime() - start.getTime()), TimeUnit.MILLISECONDS) < 30) {
+              Math.abs(end.getTime() - start.getTime()), TimeUnit.MILLISECONDS) < 30) {
         return true;
       }
     } catch (Exception e) {

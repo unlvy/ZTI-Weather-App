@@ -25,9 +25,8 @@ public class WeatherService {
   public OpenMeteoData[] getWeatherForecast(double latitude, double longitude) {
     List<OpenMeteoData> ret;
     List<Forecast> records;
-    // Check if forecast doesnt exists or is older than 1 hour
-    if (Boolean.parseBoolean(forecastRepository.checkForecastUpdate(
-        (int) latitude, (int) longitude))) {
+    // Check if forecast exists and is up to date
+    if (this.checkIfForecastUpdate(latitude, longitude)) {
       // Read from api and update db
       this.forecastRepository.preForecastUpdate((int) longitude, (int) latitude);
       ret = this.openMeteoService.getWeatherForecast(latitude, longitude);
@@ -57,8 +56,7 @@ public class WeatherService {
       double latitude, double longitude, String startDate, String endDate) {
     List<OpenMeteoData> ret;
     // Check if entry already exists
-    if (Boolean.parseBoolean(
-        historicalRepository.checkIfExists((int) latitude, (int) longitude, startDate, endDate))) {
+    if (checkIfHistoricalEntryExists(latitude, longitude, startDate, endDate)) {
       // Read from db
       List<Historical> h = this.historicalRepository.getHistoricalFromRange(
           (int) latitude, (int) longitude, startDate, endDate);
@@ -73,6 +71,17 @@ public class WeatherService {
       this.historicalRepository.saveAll(records);
     }
     return ret.toArray(OpenMeteoData[]::new);
+  }
+
+  private boolean checkIfForecastUpdate(double latitude, double longitude) {
+    return Boolean.parseBoolean(forecastRepository.checkForecastUpdate(
+        (int) latitude, (int) longitude));
+  }
+
+  private boolean checkIfHistoricalEntryExists(
+      double latitude, double longitude, String startDate, String endDate) {
+    return Boolean.parseBoolean(
+        historicalRepository.checkIfExists((int) latitude, (int) longitude, startDate, endDate));
   }
 
   @Autowired
