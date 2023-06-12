@@ -2,16 +2,17 @@ package zti.weatherapi.weather;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+import zti.weatherapi.db.model.OpenMeteoData;
 import zti.weatherapi.logger.Logger;
-import zti.weatherapi.openmeteo.OpenMeteoData;
 
-/** Weather forecast controller. */
+/** Historical weather and weather forecast controller. */
 @RestController
 public class WeatherController {
 
@@ -62,10 +63,15 @@ public class WeatherController {
   private Boolean validateStartEndDate(String startDate, String endDate) {
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     try {
-      if (dateFormat.parse(startDate).before(dateFormat.parse(endDate))
-          && dateFormat.parse(endDate).before(
+      Date start = dateFormat.parse(startDate);
+      Date end = dateFormat.parse(endDate);
+      if (start.before(end)
+          && start.before(
               // 8 day ago
-              new Date(new Date().getTime() - (8 * 1000 * 60 * 60 * 24)))) {
+              new Date(new Date().getTime() - (8 * 1000 * 60 * 60 * 24)))
+          // max 30 days
+          && TimeUnit.DAYS.convert(
+            Math.abs(end.getTime() - start.getTime()), TimeUnit.MILLISECONDS) < 30) {
         return true;
       }
     } catch (Exception e) {
