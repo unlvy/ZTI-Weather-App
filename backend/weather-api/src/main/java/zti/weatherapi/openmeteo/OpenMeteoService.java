@@ -7,7 +7,6 @@ import java.util.Locale;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import zti.weatherapi.db.model.OpenMeteoData;
-import zti.weatherapi.logger.Logger;
 import zti.weatherapi.openmeteo.apidata.WeatherData;
 
 /**
@@ -65,7 +64,6 @@ public class OpenMeteoService {
     try {
       weatherData = this.objectMapper.readValue(response, WeatherData.class);
     } catch (Exception e) {
-      this.logger.log("ERROR", e.getMessage());
       return null;
     }
 
@@ -95,5 +93,4 @@ public class OpenMeteoService {
   private final WebClient webClient = WebClient.create();
   private final String API_ARCHIVE_BASE_URI = "https://archive-api.open-meteo.com/v1/archive?latitude=%d&longitude=%d&start_date=%s&end_date=%s&hourly=temperature_2m,relativehumidity_2m,surface_pressure,precipitation,cloudcover,windspeed_10m";
   private final String API_FORECAST_BASE_URI = "https://api.open-meteo.com/v1/forecast?latitude=%d&longitude=%d&hourly=temperature_2m,relativehumidity_2m,precipitation,surface_pressure,cloudcover,windspeed_10m";
-  private final Logger logger = new Logger();
 }

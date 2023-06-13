@@ -6,14 +6,15 @@ import java.util.concurrent.TimeUnit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import zti.weatherapi.db.model.OpenMeteoData;
-import zti.weatherapi.logger.Logger;
 
 /** Historical weather and weather forecast controller. */
 @RestController
+@RequestMapping("/api/v1")
 public class WeatherController {
 
   /**
@@ -23,7 +24,7 @@ public class WeatherController {
    * @param latitude  location longitude
    * @return 7 day weather prediction
    */
-  @GetMapping("/v1/forecast")
+  @GetMapping("/forecast")
   public OpenMeteoData[] getWeatherForecast(
       @RequestParam(value = "latitude") double latitude,
       @RequestParam(value = "longitude") double longitude) {
@@ -42,7 +43,7 @@ public class WeatherController {
    * @param endDate   date to
    * @return historical weather
    */
-  @GetMapping("/v1/historical")
+  @GetMapping("/historical")
   public OpenMeteoData[] getHistoricalWeather(
       @RequestParam(value = "latitude") double latitude,
       @RequestParam(value = "longitude") double longitude,
@@ -76,14 +77,10 @@ public class WeatherController {
               Math.abs(end.getTime() - start.getTime()), TimeUnit.MILLISECONDS) < 30) {
         return true;
       }
-    } catch (Exception e) {
-      this.logger.log("ERROR", e.getMessage());
-    }
+    } catch (Exception ignored) { }
     return false;
   }
 
   @Autowired
   private WeatherService weatherService;
-  private final Logger logger = new Logger();
-
 }
