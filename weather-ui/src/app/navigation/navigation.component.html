@@ -1,0 +1,16 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <h1>{{ title }}</h1>
+    <div style="margin-left: 64px;">
+      <a mat-button style="margin-left: 8px; font-size: 16px;" [routerLink]="'/historical'">
+        <mat-icon>cloud</mat-icon>
+        Historical Weather
+      </a>
+
+      <a mat-button style="margin-left: 8px; font-size: 16px;" [routerLink]="'/forecast'">
+        <mat-icon>cloud_queue</mat-icon>
+        Weather Forecast
+      </a>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>
