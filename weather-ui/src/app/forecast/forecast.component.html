@@ -1,1 +1,110 @@
-<p>forecast works!</p>
+<div class="centered">
+  <form class="form" [formGroup]="forecastForm" (ngSubmit)="onForecastSubmit()">
+
+    <h1>7-day weather forecast</h1>
+
+    <p>
+      <mat-form-field class="input-field">
+        <mat-label>Latitude</mat-label>
+        <input matInput type="number" formControlName="latitude">
+        <mat-error *ngIf="forecastForm.controls['latitude'].hasError('required')">
+          Cannot be empty!
+        </mat-error>
+        <mat-error *ngIf="forecastForm.controls['latitude'].hasError('min')
+          || forecastForm.controls['latitude'].hasError('max')">
+          Allowed range: (-90,90)
+        </mat-error>
+        <mat-error *ngIf="forecastForm.controls['latitude'].hasError('pattern')">
+          Must be an integer!
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="input-field" style="margin-left: 32px;">
+        <mat-label>Longitude</mat-label>
+        <input matInput type="number" formControlName="longitude">
+        <mat-error *ngIf="forecastForm.controls['longitude'].hasError('required')">
+          Cannot be empty!
+        </mat-error>
+        <mat-error *ngIf="forecastForm.controls['longitude'].hasError('min')
+          || forecastForm.controls['longitude'].hasError('max')">
+          Allowed range: (-180,180)
+        </mat-error>
+        <mat-error *ngIf="forecastForm.controls['longitude'].hasError('pattern')">
+          Must be an integer!
+        </mat-error>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field class="select-field">
+        <mat-label>Forecast type</mat-label>
+        <mat-select formControlName="forecastType">
+          <mat-option *ngFor="let type of forecastTypes" [value]="type">
+            {{getForecastTypeLabel(type)}}
+          </mat-option>
+        </mat-select>
+        <mat-error> Required! </mat-error>
+      </mat-form-field>
+    </p>
+
+    <button mat-flat-button color="primary" type="submit" style="margin-left: 20px;"
+      [disabled]="this.inProgress || !this.forecastForm.valid">Get forecast</button>
+  </form>
+</div>
+
+<div class="centered-table">
+  <table mat-table [dataSource]="shortForecast" [hidden]="!shortForecastVisible">
+    <ng-container matColumnDef="time">
+      <th mat-header-cell *matHeaderCellDef> Time </th>
+      <td mat-cell *matCellDef="let element"> {{ element.time }} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="value">
+      <th mat-header-cell *matHeaderCellDef> {{ shortValueType }} </th>
+      <td mat-cell *matCellDef="let element"> {{ element.value }} </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="shortDataColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: shortDataColumns;"></tr>
+  </table>
+
+  <table mat-table [dataSource]="forecast" [hidden]="!forecastVisible">
+    <ng-container matColumnDef="time">
+      <th mat-header-cell *matHeaderCellDef> Time </th>
+      <td mat-cell *matCellDef="let element"> {{ element.time }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="temperature">
+      <th mat-header-cell *matHeaderCellDef> Temperature [°C] </th>
+      <td mat-cell *matCellDef="let element"> {{ element.temperature }} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="humidity">
+      <th mat-header-cell *matHeaderCellDef> Humidity [%] </th>
+      <td mat-cell *matCellDef="let element"> {{ element.humidity }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="pressure">
+      <th mat-header-cell *matHeaderCellDef> Pressure [hPa] </th>
+      <td mat-cell *matCellDef="let element"> {{ element.pressure }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="precipitation">
+      <th mat-header-cell *matHeaderCellDef> Precipitation [mm] </th>
+      <td mat-cell *matCellDef="let element"> {{ element.precipitation }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="cloudcover">
+      <th mat-header-cell *matHeaderCellDef> Cloudcover [%] </th>
+      <td mat-cell *matCellDef="let element"> {{ element.cloudcover }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="windspeed">
+      <th mat-header-cell *matHeaderCellDef> Windspeed [m/s] </th>
+      <td mat-cell *matCellDef="let element"> {{ element.windspeed }} </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="dataColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: dataColumns;"></tr>
+  </table>
+</div>

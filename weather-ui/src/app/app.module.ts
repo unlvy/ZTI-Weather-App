@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,12 +13,13 @@ import { ForecastComponent } from './forecast/forecast.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field'
+import { MatFormFieldModule, MatLabel } from '@angular/material/form-field'
 import { MatIconModule } from '@angular/material/icon'
-import { MatInputModule } from '@angular/material/input';
+import { MatInputModule, MatInput } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTableModule } from '@angular/material/table'; 
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 @NgModule({
@@ -25,6 +28,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     BrowserModule, 
     AppRoutingModule,
     BrowserAnimationsModule,
+    FormsModule,
+    HttpClientModule,
+    ReactiveFormsModule,
     MatButtonModule,
     MatCardModule,
     MatDialogModule,
@@ -34,7 +40,12 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatSelectModule,
     MatSidenavModule,
     MatSnackBarModule,
+    MatTableModule,
     MatToolbarModule   
+  ],
+  exports: [
+    MatLabel,
+    MatInput
   ],
   providers: [],
   bootstrap: [AppComponent],
