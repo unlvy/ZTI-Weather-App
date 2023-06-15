@@ -20,8 +20,6 @@ enum ForecastType {
 })
 export class ForecastComponent {
 
-  constructor(private forecastService: ForecastService) { }
-
   public inProgress = false;
   public shortValueType = '';
   public shortDataColumns = ['time', 'value']
@@ -46,6 +44,8 @@ export class ForecastComponent {
     longitude: new FormControl('', { validators: [Validators.required, Validators.min(-179), Validators.max(179), Validators.pattern('-?[0-9]+')] }),
     forecastType: new FormControl('', { validators: [Validators.required] })
   });
+
+  constructor(private forecastService: ForecastService) { }
 
   public get forecastLatitude() { return this.forecastForm.get('latitude'); }
   public get forecastLongitude() { return this.forecastForm.get('longitude'); }
