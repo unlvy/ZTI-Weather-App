@@ -1,3 +1,3 @@
 # ZTI-Weather-App
 Project for Advanced Internet Technologies course.  
-Java Spring application providing weather API.
+Java Spring application providing weather API with Angular frontend.
