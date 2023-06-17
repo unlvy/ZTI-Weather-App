@@ -11,7 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 import zti.weatherapi.db.model.OpenMeteoData;
 
 /** Weather forecast controller. */
-@CrossOrigin(origins = "")
+@CrossOrigin(origins = "https://weather-ui.onrender.com")
 @RestController
 @RequestMapping("/api/v1/forecast")
 public class ForecastController {

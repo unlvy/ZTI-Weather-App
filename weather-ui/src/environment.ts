@@ -1,4 +1,4 @@
-const backendUrl = ""
+const backendUrl = "https://weather-api-ghsw.onrender.com"
 
 export const environment = {
   forecastTemperature: `${backendUrl}/forecast/temperature`,
