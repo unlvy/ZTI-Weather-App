@@ -135,7 +135,7 @@ export class HistoricalComponent {
 
   public setMaxDate() {
     const newMaxDate = new Date(this.historicalForm.value.startDate);
-    newMaxDate.setDate(newMaxDate.getDate() + 30);
+    newMaxDate.setDate(newMaxDate.getDate() + 21);
     this.maxDate = new Date(newMaxDate);
   }
 
